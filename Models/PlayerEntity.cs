@@ -1,0 +1,16 @@
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore.Design;
+
+namespace TableFootball.Models
+{
+    public class PlayerEntity
+    {
+        [Key]
+        public int PlayerId { get; set; }
+        public int Points   { get; set; }
+        public int Games    { get; set; }
+        public string Name  { get; set; }
+        public string AvatarUrl { get; set; }
+    }
+}

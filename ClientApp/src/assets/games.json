@@ -1,0 +1,60 @@
+{
+    "games": [
+        {
+            "gameId": "1",
+            "teams": [
+                {
+                    "players": [
+                        {
+                            "playerId": "1",
+                            "name": "Andrew",
+                            "position": "Attacker"
+                        },
+                        {
+                            "playerId": "2",
+                            "name": "Oleg",
+                            "position": "Defender"
+                        }
+                    ]
+                },
+                {
+                    "players": [
+                        {
+                            "playerId": "3",
+                            "name": "Taras",
+                            "position": "Attacker"
+                        },
+                        {
+                            "playerId": "4",
+                            "name": "Andriy",
+                            "position": "Defender"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "gameId": "2",
+            "teams": [
+                {
+                    "players": [
+                        {
+                            "playerId": "1",
+                            "name": "Andrew",
+                            "position": "Universal"
+                        }
+                    ]
+                },
+                {
+                    "players": [
+                        {
+                            "playerId": "4",
+                            "name": "Andriy",
+                            "position": "Universal"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

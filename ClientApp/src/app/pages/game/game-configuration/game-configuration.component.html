@@ -1,0 +1,51 @@
+<div class="col-md-3 mt-3 container">
+  <h2>Configure your game</h2>
+</div>
+
+<div class="col-md-4 mt-4 container">
+  <div class="d-flex justify-content-center">
+    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+      <label class="btn btn-lg btn-outline-success" [ngClass]="{ 'active': !clicked }">
+        <input type="radio" name="options" autocomplete="off" (click)="clicked = !clicked"> One player
+      </label>
+      <label class="btn btn-lg btn-outline-success" [ngClass]="{ 'active': clicked }">
+        <input type="radio" name="options" autocomplete="off" (click)="clicked = !clicked"> Two players
+      </label>
+    </div>
+  </div>
+</div>
+
+<!-- checkbox -->
+<div class="col-md-3 mt-3 container">
+  <div class="d-flex justify-content-center custom-control custom-checkbox">
+    <input type="checkbox" class="custom-control-input" id="randomCheck" (click)="randomCheckBoxClicked()">
+    <label class="custom-control-label" for="randomCheck">Random generate (without rating)</label>
+  </div>
+</div>
+
+<div class="col-md-5 mt-4 container shadow">
+  <table class="table">
+    <thead>
+      <tr class="d-flex container">
+        <th scope="col" class="col-2">#</th>
+        <th scope="col" class="col-8">Name</th>
+        <th scope="col" class="col-2">Remove</th>
+      </tr>
+    </thead>
+    <tbody *ngFor="let player of players; let i = index">
+      <tr class="d-flex container">
+        <th class="col-2"> {{ i + 1 }} </th>
+        <td class="col-8"> {{ player.name }} </td>
+        <td class="col-2">
+          <button class="remove-item" (click)="removePlayer(player)">X</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="col-md-2 mt-4 container">
+  <div class="d-flex justify-content-center">
+    <button type="submit" class="btn btn-outline-success btn-block" (click)="goToTeamCalibration()">Generate</button>
+  </div>
+</div>
