@@ -5,6 +5,6 @@ namespace TableFootball.Models.Requests
 {
     public class GameResultsRequest
     {
-        public List<GameEntity> Games { get; set; }
+        public List<Game> Games { get; set; }
     }
 }

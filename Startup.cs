@@ -32,11 +32,10 @@ namespace TableFootball
 
             var connection = "Data Source=football.db";
             services.AddDbContext<TableFootballContext>
-                (options => options.UseSqlServer(connection));
+                (options => options.UseSqlite(connection));
 
             services.AddScoped(p => new TableFootballContext(p.GetService<DbContextOptions<TableFootballContext>>()));
 
-            // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/dist";

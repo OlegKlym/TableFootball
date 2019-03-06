@@ -1,7 +1,7 @@
 ﻿using System;
 namespace TableFootball.Services
 {
-    public class GamesService
+    public class GamesService : BaseService
     {
         public GamesService()
         {

@@ -4,13 +4,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace TableFootball.Models
 {
-    public class GameEntity
+    public class Game
     {
         [Key]
-        public int GameId { get; set; }
-        public string Date { get; set; }
+        public int Id           { get; set; }
+        public string Date      { get; set; }
         public int TeamWinnerId { get; set; }
 
-        public List<TeamEntity> Teams { get; set; }
+        public List<Team> Teams { get; set; }
     }
 }

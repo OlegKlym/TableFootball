@@ -8,15 +8,9 @@ namespace TableFootball.Services
 {
     public class PlayersService : BaseService
     {
-        public void AddNewPlayer(PlayerEntity player)
+        public void AddNewPlayer(Player player)
         {
-            using (var connection = new SQLiteConnection
-            (
-                new SQLiteConnectionStringBuilder
-                {
-                    DataSource = "football.db"
-                }
-                .ToString()))
+            using (var connection = new SQLiteConnection("Data Source=football.db"))
             {
                 connection.Open();
 
@@ -27,7 +21,7 @@ namespace TableFootball.Services
                         var insertCommand = connection.CreateCommand();
                         insertCommand.Transaction = transaction;
                         insertCommand.CommandText = "INSERT INTO Players ( Id, Name, Games, Points ) VALUES ( $id, $name, $games, $points)";
-                        insertCommand.Parameters.AddWithValue("$id", player.PlayerId);
+                        insertCommand.Parameters.AddWithValue("$id", player.Id);
                         insertCommand.Parameters.AddWithValue("$name", player.Name);
                         insertCommand.Parameters.AddWithValue("$games", player.Games);
                         insertCommand.Parameters.AddWithValue("$points", player.Points);
@@ -43,57 +37,9 @@ namespace TableFootball.Services
             }
         }
 
-        public List<PlayerEntity> GetAllPlayers()
+        public Player GetPlayerById(int playerId)
         {
-            var players = new List<PlayerEntity>();
-
-            using (var connection = new SQLiteConnection
-            (
-                new SQLiteConnectionStringBuilder
-                {
-                    DataSource = "football.db"
-                }
-                .ToString()))
-            {
-                connection.Open();
-
-                using (var transaction = connection.BeginTransaction())
-                {
-                    try
-                    {
-                        var selectCommand = connection.CreateCommand();
-                        selectCommand.Transaction = transaction;
-                        selectCommand.CommandText = "SELECT * FROM Players";
-                        using (var reader = selectCommand.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                var player = new PlayerEntity();
-                                player.PlayerId = reader.GetInt32(0);
-                                player.Name = reader.GetString(1);
-                                player.Games = reader.GetInt32(2);
-                                player.Points = reader.GetInt32(3);
-                                player.AvatarUrl = reader.GetString(4);
-
-                                players.Add(player);
-                            }
-                        }
-                    }
-                    catch (Exception exp)
-                    {
-                        Console.WriteLine(exp.Message);
-                    }
-
-                    transaction.Commit();
-                }
-            }
-
-            return players;
-        }
-
-        public PlayerEntity GetPlayerById(int playerId)
-        {
-            var player = new PlayerEntity();
+            var player = new Player();
 
             using (var connection = new SQLiteConnection
            (
@@ -117,7 +63,7 @@ namespace TableFootball.Services
                         {
                             while (reader.Read())
                             {
-                                player.PlayerId = reader.GetInt32(0);
+                                player.Id = reader.GetInt32(0);
                                 player.Name = reader.GetString(1);
                                 player.Games = reader.GetInt32(2);
                                 player.Points = reader.GetInt32(3);
@@ -137,26 +83,59 @@ namespace TableFootball.Services
             }
         }
 
-        public void UpdatePlayer(PlayerEntity player)
+        public List<Player> GetAllPlayers()
         {
-            using (var connection = new SQLiteConnection("Data Source= football.db"))
-            {
-                var updateCommand = connection.CreateCommand();
-                updateCommand.CommandText = "UPDATE Players SET Games = $games, Points = $points WHERE id = $id";
-                updateCommand.Parameters.AddWithValue("$id", player.PlayerId);
-                updateCommand.Parameters.AddWithValue("$games", player.Games);
-                updateCommand.Parameters.AddWithValue("$points", player.Points);
+            var players = new List<Player>();
 
+            using (var connection = new SQLiteConnection
+            (
+                new SQLiteConnectionStringBuilder
+                {
+                    DataSource = "football.db"
+                }
+                .ToString()))
+            {
                 connection.Open();
-                updateCommand.ExecuteNonQuery();
+
+                using (var transaction = connection.BeginTransaction())
+                {
+                    try
+                    {
+                        var selectCommand = connection.CreateCommand();
+                        selectCommand.Transaction = transaction;
+                        selectCommand.CommandText = "SELECT * FROM Players";
+                        using (var reader = selectCommand.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                var player = new Player();
+                                player.Id = reader.GetInt32(0);
+                                player.Name = reader.GetString(1);
+                                player.Games = reader.GetInt32(2);
+                                player.Points = reader.GetInt32(3);
+                                player.AvatarUrl = reader.GetString(4);
+
+                                players.Add(player);
+                            }
+                        }
+                    }
+                    catch (Exception exp)
+                    {
+                        Console.WriteLine(exp.Message);
+                    }
+
+                    transaction.Commit();
+                }
             }
+
+            return players;
         }
 
         public void ClearPlayersPoints()
         {
             var players = GetAllPlayers();
 
-            foreach(var player in players)
+            foreach (var player in players)
             {
                 player.Games = 0;
                 player.Points = 0;
@@ -165,15 +144,30 @@ namespace TableFootball.Services
             }
         }
 
-        public void UpdatePlayersPoints(List<GameEntity> games)
+        public void UpdatePlayer(Player player)
+        {
+            using (var connection = new SQLiteConnection("Data Source=football.db"))
+            {
+                var updateCommand = connection.CreateCommand();
+                updateCommand.CommandText = "UPDATE Players SET Games = $games, Points = $points WHERE id = $id";
+                updateCommand.Parameters.AddWithValue("$id", player.Id);
+                updateCommand.Parameters.AddWithValue("$games", player.Games);
+                updateCommand.Parameters.AddWithValue("$points", player.Points);
+
+                connection.Open();
+                updateCommand.ExecuteNonQuery();
+            }
+        }
+
+        public void UpdatePlayersPoints(List<Game> games)
         {
             foreach (var game in games)
             {
-                var winner = game.Teams.FirstOrDefault(t => t.TeamId == game.TeamWinnerId);
+                var winner = game.Teams.FirstOrDefault(t => t.Id == game.TeamWinnerId);
 
                 foreach (var player in winner.Players)
                 {
-                    var playerFromDB = GetPlayerById(player.PlayerId);
+                    var playerFromDB = GetPlayerById(player.Id);
 
                     playerFromDB.Points++;
                     playerFromDB.Games++;
@@ -181,11 +175,11 @@ namespace TableFootball.Services
                     UpdatePlayer(playerFromDB);
                 }
 
-                var looser = game.Teams.FirstOrDefault(t => t.TeamId != game.TeamWinnerId);
+                var looser = game.Teams.FirstOrDefault(t => t.Id != game.TeamWinnerId);
 
                 foreach (var player in looser.Players)
                 {
-                    var playerFromDB = GetPlayerById(player.PlayerId);
+                    var playerFromDB = GetPlayerById(player.Id);
 
                     playerFromDB.Games++;
 

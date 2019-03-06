@@ -20,6 +20,7 @@
     <PackageReference Include="System.Data.SQLite.Core" Version="1.0.109.2" />
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="1.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational.Design" Version="1.1.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.1.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -37,6 +38,7 @@
     <Folder Include="Services\" />
     <Folder Include="Models\Requests\" />
     <Folder Include="Models\Responses\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClientApp\tslint.json" />
@@ -50,6 +52,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Services\DBService.cs" />
+    <Compile Remove="Migrations\20190301151220_InitialCreate.Designer.cs" />
+    <Compile Remove="Migrations\20190301151220_InitialCreate.cs" />
+    <Compile Remove="Migrations\20190304082754_AddGamesTable.Designer.cs" />
+    <Compile Remove="Migrations\20190304082754_AddGamesTable.cs" />
+    <Compile Remove="Migrations\20190304083453_AddTeamsTable.Designer.cs" />
+    <Compile Remove="Migrations\20190304083453_AddTeamsTable.cs" />
+    <Compile Remove="Migrations\TableFootballContextModelSnapshot.cs" />
   </ItemGroup>
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
     <!-- Ensure Node.js is installed -->

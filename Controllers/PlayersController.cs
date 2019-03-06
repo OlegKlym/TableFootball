@@ -1,13 +1,5 @@
 using System;
-using System.Collections.Generic;
-using System.Data.SQLite;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System.Web.Http;
 using Microsoft.AspNetCore.Mvc;
-using TableFootball.Models;
 using TableFootball.Models.Requests;
 using TableFootball.Models.Responces;
 using TableFootball.Services;
@@ -44,16 +36,16 @@ namespace TableFootball.Controllers
 
         // POST: api/players
         [HttpPost]
-        public GameResultsResponce UpdatePlayersRating([FromBody] GameResultsRequest request)
+        public BaseResponce UpdatePlayersRating([FromBody] GameResultsRequest request)
         {
             try
             {
                 _playersService.UpdatePlayersPoints(request.Games);
-                return new GameResultsResponce();
+                return new BaseResponce();
             }
             catch (Exception exception)
             {
-                return new GameResultsResponce(exception.Message);
+                return new BaseResponce(exception.Message);
             }
         }
 
@@ -64,6 +56,21 @@ namespace TableFootball.Controllers
             try
             {
                 _playersService.ClearPlayersPoints();
+                return new BaseResponce();
+            }
+            catch (Exception exception)
+            {
+                return new BaseResponce(exception.Message);
+            }
+        }
+
+        // POST: api/players/add
+        [HttpPost, Route("add")]
+        public BaseResponce AddPlayers([FromBody] GameResultsRequest request)
+        {
+            try
+            {
+                _playersService.UpdatePlayersPoints(request.Games);
                 return new BaseResponce();
             }
             catch (Exception exception)

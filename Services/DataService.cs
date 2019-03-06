@@ -6,55 +6,55 @@ namespace TableFootball.Services
 {
     public static class DataService
     {
-        public static List<PlayerEntity> GetPlayers()
+        public static List<Player> GetPlayers()
         {
-            return new List<PlayerEntity>
+            return new List<Player>
             {
-                new PlayerEntity
+                new Player
                 {
-                    PlayerId = 4,
+                    Id = 4,
                     Name = "Oleg",
                     Points = 12,
                     Games = 18
                 },
-                new PlayerEntity
+                new Player
                 {
-                    PlayerId = 2,
+                    Id = 2,
                     Name = "Andrew",
                     Points = 11,
                     Games = 18
                 },
-                new PlayerEntity
+                new Player
                 {
-                    PlayerId = 5,
+                    Id = 5,
                     Name = "Andriy Petrenko",
                     Points = 8,
                     Games = 12
                 },
-                new PlayerEntity
+                new Player
                 {
-                    PlayerId = 1,
+                    Id = 1,
                     Name = "Andriy Andrushko",
                     Points = 8,
                     Games = 18
                 },
-                new PlayerEntity
+                new Player
                 {
-                    PlayerId = 3,
+                    Id = 3,
                     Name = "Taras",
                     Points = 8,
                     Games = 14
                 },
-                new PlayerEntity
+                new Player
                 {
-                    PlayerId = 6,
+                    Id = 6,
                     Name = "Nazar",
                     Points = 7,
                     Games = 16
                 },
-                new PlayerEntity
+                new Player
                 {
-                    PlayerId = 8,
+                    Id = 8,
                     Name = "Vitaliy",
                     Points = 0,
                     Games = 12

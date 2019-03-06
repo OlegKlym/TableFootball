@@ -8,24 +8,18 @@ namespace TableFootball
 {
     public class TableFootballContext : DbContext
     {
-        public DbSet<PlayerEntity> Players { get; set; }
-        public DbSet<GameEntity> Games { get; set; }
-        public DbSet<TeamEntity> Teams { get; set; }
+        public DbSet<Player> Players { get; set; }
+        public DbSet<Game> Games { get; set; }
+        public DbSet<Team> Teams { get; set; }
+
+        public TableFootballContext(){}
 
         public TableFootballContext(DbContextOptions<TableFootballContext> options)
-            : base(options)
-        { 
-
-        }
-
-        public TableFootballContext()
-        {
-
-        }
+            : base(options){}
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Data Source=football.db");
+            optionsBuilder.UseSqlite("Data Source=football.db");
         }
     }
 }

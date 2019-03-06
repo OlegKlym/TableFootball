@@ -8,6 +8,8 @@ import { Player } from 'app/models/player.model';
 
 import { GameRegisterRequest } from 'app/models/requests/game-register-request.model';
 import { GameResultsRequest } from 'app/models/requests/game-results-request.model';
+import { PlayersRegisterRequest } from 'app/models/players-register-request.model';
+
 import { GameRegisterResponse } from 'app/models/responses/game-register-response.model';
 import { PlayersResponse } from 'app/models/responses/players-response.model';
 import { APIResponse } from '../models/responses/api-response.model';
@@ -19,8 +21,28 @@ export class ApiService {
 
   constructor(private _httpClient: HttpClient) { }
 
+  public addPlayers(request: PlayersRegisterRequest): Observable<PlayersResponse> {
+    let playersUrl = 'https://localhost:5001/api/players/add';
+    let response = new PlayersResponse();
+
+    return this._httpClient
+      .post(playersUrl, request)
+      .pipe(map(data => {
+        let playersList = data["players"];
+        let players = playersList.map((player) => new Player(player));
+        response.players = players;
+        return response;
+      }),
+        catchError(err => {
+          console.log(err);
+          response.success = false;
+          response.error = err;
+          return throwError(response);
+        }));
+  }
+
   public getPlayers(): Observable<PlayersResponse> {
-    let playersUrl =  'https://localhost:5001/api/players';
+    let playersUrl = 'https://localhost:5001/api/players';
     let response = new PlayersResponse();
 
     return this._httpClient.get(playersUrl)
@@ -39,7 +61,7 @@ export class ApiService {
   }
 
   public registerNewGame(request: GameRegisterRequest): Observable<GameRegisterResponse> {
-    let gamesUrl =  'https://localhost:5001/assets/games.json';
+    let gamesUrl = 'https://localhost:5001/assets/games.json';
     let response = new GameRegisterResponse();
 
     return this._httpClient.get(gamesUrl)
@@ -59,34 +81,34 @@ export class ApiService {
 
   public saveResults(request: GameResultsRequest): Observable<APIResponse> {
     return this._httpClient
-    .post('https://localhost:5001/api/players', request)
-    .pipe(map(data => {
-      let responce = new APIResponse();
-      return responce;
-    }),
-      catchError(err => {
-        console.log(err);
+      .post('https://localhost:5001/api/players', request)
+      .pipe(map(data => {
         let responce = new APIResponse();
-        responce.success = false;
-        responce.error = err;
-        return throwError(responce);
-      }));
+        return responce;
+      }),
+        catchError(err => {
+          console.log(err);
+          let responce = new APIResponse();
+          responce.success = false;
+          responce.error = err;
+          return throwError(responce);
+        }));
   }
 
   public clearPoints(): Observable<APIResponse> {
     return this._httpClient
-    .get('https://localhost:5001/api/players/clear')
-    .pipe(map(data => {
-      let responce = new APIResponse();
-      return responce;
-    }),
-      catchError(err => {
-        console.log(err);
+      .get('https://localhost:5001/api/players/clear')
+      .pipe(map(data => {
         let responce = new APIResponse();
-        responce.success = false;
-        responce.error = err;
-        return throwError(responce);
-      }));
+        return responce;
+      }),
+        catchError(err => {
+          console.log(err);
+          let responce = new APIResponse();
+          responce.success = false;
+          responce.error = err;
+          return throwError(responce);
+        }));
   }
 }
 
