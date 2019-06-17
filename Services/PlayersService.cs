@@ -8,7 +8,15 @@ namespace TableFootball.Services
 {
     public class PlayersService : BaseService
     {
-        public void AddNewPlayer(Player player)
+        public void AddNewPlayers(List<Player> players)
+        {
+            foreach (var player in players)
+            {
+                AddPlayer(player);
+            }
+        }
+
+        public void AddPlayer(Player player)
         {
             using (var connection = new SQLiteConnection("Data Source=football.db"))
             {
@@ -21,7 +29,6 @@ namespace TableFootball.Services
                         var insertCommand = connection.CreateCommand();
                         insertCommand.Transaction = transaction;
                         insertCommand.CommandText = "INSERT INTO Players ( Id, Name, Games, Points ) VALUES ( $id, $name, $games, $points)";
-                        insertCommand.Parameters.AddWithValue("$id", player.Id);
                         insertCommand.Parameters.AddWithValue("$name", player.Name);
                         insertCommand.Parameters.AddWithValue("$games", player.Games);
                         insertCommand.Parameters.AddWithValue("$points", player.Points);
@@ -63,7 +70,7 @@ namespace TableFootball.Services
                         {
                             while (reader.Read())
                             {
-                                player.Id = reader.GetInt32(0);
+                                player.PlayerId = reader.GetInt32(0);
                                 player.Name = reader.GetString(1);
                                 player.Games = reader.GetInt32(2);
                                 player.Points = reader.GetInt32(3);
@@ -109,7 +116,7 @@ namespace TableFootball.Services
                             while (reader.Read())
                             {
                                 var player = new Player();
-                                player.Id = reader.GetInt32(0);
+                                player.PlayerId = reader.GetInt32(0);
                                 player.Name = reader.GetString(1);
                                 player.Games = reader.GetInt32(2);
                                 player.Points = reader.GetInt32(3);
@@ -150,7 +157,7 @@ namespace TableFootball.Services
             {
                 var updateCommand = connection.CreateCommand();
                 updateCommand.CommandText = "UPDATE Players SET Games = $games, Points = $points WHERE id = $id";
-                updateCommand.Parameters.AddWithValue("$id", player.Id);
+                updateCommand.Parameters.AddWithValue("$id", player.PlayerId);
                 updateCommand.Parameters.AddWithValue("$games", player.Games);
                 updateCommand.Parameters.AddWithValue("$points", player.Points);
 
@@ -163,11 +170,11 @@ namespace TableFootball.Services
         {
             foreach (var game in games)
             {
-                var winner = game.Teams.FirstOrDefault(t => t.Id == game.TeamWinnerId);
+                var winner = game.Teams.FirstOrDefault(t => t.TeamId == game.TeamWinnerId);
 
                 foreach (var player in winner.Players)
                 {
-                    var playerFromDB = GetPlayerById(player.Id);
+                    var playerFromDB = GetPlayerById(player.PlayerId);
 
                     playerFromDB.Points++;
                     playerFromDB.Games++;
@@ -175,11 +182,11 @@ namespace TableFootball.Services
                     UpdatePlayer(playerFromDB);
                 }
 
-                var looser = game.Teams.FirstOrDefault(t => t.Id != game.TeamWinnerId);
+                var looser = game.Teams.FirstOrDefault(t => t.TeamId != game.TeamWinnerId);
 
                 foreach (var player in looser.Players)
                 {
-                    var playerFromDB = GetPlayerById(player.Id);
+                    var playerFromDB = GetPlayerById(player.PlayerId);
 
                     playerFromDB.Games++;
 

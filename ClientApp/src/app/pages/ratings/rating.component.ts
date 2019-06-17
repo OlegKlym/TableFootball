@@ -24,15 +24,16 @@ export class RatingComponent {
     }
 
     ngOnInit() {
-        this._dataService.getPlayers((response) => {
-            if (response.success) {
-                this.players= this._teamGeneratorService.sortPlayersByPoints(this._dataService.players);
-            }
-
-            if (this.players.length == 0) {
-                this.goToRegistration();
-            }
-        });
+        if(this.players.length == 0){
+            this._dataService.getPlayers((response) => {
+                if (response.success) {
+                    this.players= this._teamGeneratorService.sortPlayersByPoints(this._dataService.players);
+                }
+                else{
+                    this.goToRegistration();
+                }
+            });
+        }
     }
 
     goToRegistration(): void {

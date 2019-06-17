@@ -12,49 +12,50 @@ namespace TableFootball.Services
             {
                 new Player
                 {
-                    Id = 4,
+
+                    PlayerId = 4,                    
                     Name = "Oleg",
                     Points = 12,
                     Games = 18
                 },
                 new Player
                 {
-                    Id = 2,
+                    PlayerId = 2,
                     Name = "Andrew",
                     Points = 11,
                     Games = 18
                 },
                 new Player
                 {
-                    Id = 5,
+                    PlayerId = 5,
                     Name = "Andriy Petrenko",
                     Points = 8,
                     Games = 12
                 },
                 new Player
                 {
-                    Id = 1,
+                    PlayerId = 1,
                     Name = "Andriy Andrushko",
                     Points = 8,
                     Games = 18
                 },
                 new Player
                 {
-                    Id = 3,
+                    PlayerId = 3,
                     Name = "Taras",
                     Points = 8,
                     Games = 14
                 },
                 new Player
                 {
-                    Id = 6,
+                    PlayerId = 6,
                     Name = "Nazar",
                     Points = 7,
                     Games = 16
                 },
                 new Player
                 {
-                    Id = 8,
+                    PlayerId = 8,
                     Name = "Vitaliy",
                     Points = 0,
                     Games = 12

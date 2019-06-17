@@ -7,7 +7,7 @@ import { Game } from 'app/models/game.model';
 
 import { GameRegisterRequest } from 'app/models/requests/game-register-request.model';
 import { GameResultsRequest } from 'app/models/requests/game-results-request.model';
-import { PlayersRegisterRequest } from 'app/models/players-register-request.model';
+import { PlayersRegisterRequest } from 'app/models/requests/players-register-request.model';
 
 import { GameRegisterResponse } from 'app/models/responses/game-register-response.model';
 import { PlayersResponse } from 'app/models/responses/players-response.model';

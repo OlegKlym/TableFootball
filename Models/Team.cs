@@ -7,7 +7,7 @@ namespace TableFootball.Models
     public class Team
     {
         [Key]
-        public int Id { get; set; }
+        public int TeamId { get; set; }
         public int GameId { get; set; }
 
         public List<Player> Players { get; set; }

@@ -66,16 +66,21 @@ namespace TableFootball.Controllers
 
         // POST: api/players/add
         [HttpPost, Route("add")]
-        public BaseResponce AddPlayers([FromBody] GameResultsRequest request)
+        public PlayersResponce AddPlayers([FromBody] PlayersRegisterRequest request)
         {
             try
             {
-                _playersService.UpdatePlayersPoints(request.Games);
-                return new BaseResponce();
+                _playersService.AddNewPlayers(request.Players);
+
+                var players = _playersService.GetAllPlayers();
+                return new PlayersResponce
+                {
+                    Players = players
+                };
             }
             catch (Exception exception)
             {
-                return new BaseResponce(exception.Message);
+                return new PlayersResponce(exception.Message);
             }
         }
     }

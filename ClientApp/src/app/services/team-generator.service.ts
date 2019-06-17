@@ -42,7 +42,8 @@ export class TeamGeneratorService {
 
     splitPlayersByRandom(players: Player[]): void {
         let playersCount = players.length;
-        for (let index = 0; index < playersCount; index++) {
+        while (playersCount > 1) {
+            playersCount = players.length;
             let randomPlayerIndex = Math.floor(Math.random() * playersCount);
 
             if (this.proPlayers < this.unskillPlayers) {
@@ -53,7 +54,6 @@ export class TeamGeneratorService {
             }
 
             players.splice(randomPlayerIndex, 1);
-
         }
     }
 
